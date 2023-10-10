@@ -2,6 +2,7 @@ import React from "react";
 
 import ThemeProvider from "./ThemeProvider";
 import RouteProvider from "./RouteProvider";
+import StateProvider from "./StateProvider";
 
 type Props = {
   children: JSX.Element;
@@ -9,9 +10,11 @@ type Props = {
 
 const MainProvider = ({ children }: Props) => {
   return (
-    <ThemeProvider>
-      <RouteProvider>{children}</RouteProvider>
-    </ThemeProvider>
+    <StateProvider>
+      <ThemeProvider>
+        <RouteProvider>{children}</RouteProvider>
+      </ThemeProvider>
+    </StateProvider>
   );
 };
 
