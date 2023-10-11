@@ -1,6 +1,7 @@
 {
   "expo": {
-    "name": "Memestr",
+    "name": "memestr-mobile",
+    "displayName": "Memestr",
     "slug": "memestr-mobile",
     "version": "0.1.0",
     "orientation": "portrait",
@@ -11,9 +12,7 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": true
     },
