@@ -1,8 +1,9 @@
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import React from 'react';
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import React from "react";
 
-import { RootStackParamList } from 'src/constants/RootStackParamList';
-import HomeScreen from 'src/screens/Home';
+import { RootStackParamList } from "src/constants/RootStackParamList";
+import HomeScreen from "src/screens/Home";
+import LoginScreen from "src/screens/Login";
 
 const Stack = createNativeStackNavigator<RootStackParamList>();
 
@@ -11,6 +12,7 @@ type Props = {};
 const MainNavigator = (props: Props) => {
   return (
     <Stack.Navigator>
+      <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="Home" component={HomeScreen} />
     </Stack.Navigator>
   );
