@@ -1,10 +1,7 @@
 import React from "react";
 import {
-  DimensionValue,
-  Dimensions,
   Image,
   StyleSheet,
-  TouchableOpacity,
   View,
 } from "react-native";
 import { Text } from "react-native-paper";

@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  DimensionValue,
-  Dimensions,
-  Image,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Dimensions, Image, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import { ActivityIndicator } from "react-native-paper";
 
@@ -36,7 +28,6 @@ const PostImage = ({ image }: Props) => {
     );
   }
 
-  const height = `${imageHeight}px` as DimensionValue;
   return (
     <View>
       <Image
@@ -44,7 +35,7 @@ const PostImage = ({ image }: Props) => {
         resizeMode="center"
         style={{
           width: "100%",
-          height,
+          height: imageHeight,
         }}
       />
     </View>

@@ -9,9 +9,9 @@ export const save = async (key: string, value: string) => {
     } else {
       await SecureStore.setItemAsync(key, value);
     }
-  } catch (err) {
+  } catch (error) {
     // saving error
-    console.log({ err });
+    console.log({ error });
   }
 };
 

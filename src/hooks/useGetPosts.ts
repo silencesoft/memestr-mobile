@@ -18,24 +18,26 @@ export const useGetPosts = (props: Props) => {
   const tags = ["memes", "meme", "funny", "memestr"];
   const relays = defaultRelays;
   const [profiles, setProfiles] = useAtom(profilesAtom);
-
-  const filters: Filter[] = [
-    {
-      type: "tags",
-      value: tags,
-    },
-    { type: "until", value: dateToUnix(now.current) },
-    { type: "kinds", value: [1] },
-    { type: "limit", value: 10 },
-  ];
+  const [loading, setLoading] = useState(false);
+  const [lastDate, setLastDate] = useState(dateToUnix(now.current));
 
   useEffect(() => {
+    const filters: Filter[] = [
+      {
+        type: "tags",
+        value: tags,
+      },
+      { type: "until", value: lastDate },
+      { type: "kinds", value: [1] },
+      { type: "limit", value: 10 },
+    ];
+
     const loadPosts = async () => {
       const data: Post[] = await getData<Post>({
         relays,
         filters,
       });
-      const posts: Post[] = [];
+      const newPosts: Post[] = [...posts];
 
       data.forEach(async (post) => {
         const imgRegex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpe?g|gif|png)/g;
@@ -72,17 +74,48 @@ export const useGetPosts = (props: Props) => {
             post.author = profile[0];
           }
 
-          posts.push(post);
+          newPosts.push(post);
         }
       });
 
-      setPosts(posts);
+      setPosts(newPosts);
+      setLoading(false);
     };
 
-    loadPosts();
-  }, [now]);
+    if (!loading) {
+      setLoading(true);
+      loadPosts();
+    }
+  }, [lastDate]);
+
+  useEffect(() => {
+    if (!posts.length && !loading) {
+      const newDate = new Date();
+
+      setLastDate(dateToUnix(newDate));
+    }
+  }, [posts]);
+
+  const nextPage = () => {
+    if (!posts.length) {
+      return;
+    }
+
+    const lastDate = Math.min(...posts.map((e) => e.created_at));
+
+    if (!loading) {
+      setLastDate(lastDate - 1);
+    }
+  };
+
+  const refresh = () => {
+    setPosts([]);
+  };
 
   return {
     posts,
+    loading,
+    nextPage,
+    refresh,
   };
 };

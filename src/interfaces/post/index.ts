@@ -18,7 +18,7 @@ export interface Post {
   video: string;
   image: string;
   tags: string[];
-  published_at: number;
+  created_at: number;
   aRefs?: Refs[];
   eRefs?: Refs[];
   pRefs?: Refs[];
