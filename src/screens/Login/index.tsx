@@ -4,8 +4,7 @@ import { SvgUri } from "react-native-svg";
 
 import Logo from "../../../assets/memestr.svg";
 import { useTheme } from "src/Providers/ThemeProvider";
-
-// import LoginForm from '../components/LoginForm'
+import LoginForm from "src/components/Login";
 
 const LoginScreen = () => {
   const { theme } = useTheme();
@@ -15,7 +14,7 @@ const LoginScreen = () => {
       <View style={styles.logoContainer}>
         <Logo width="100" height="100" fill={theme.colors.text} />
       </View>
-      {/* <LoginForm navigation={navigation} /> */}
+      <LoginForm />
     </View>
   );
 };

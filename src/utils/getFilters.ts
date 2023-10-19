@@ -52,6 +52,10 @@ export const getFilters = (filters: AppFilter[]): Filter => {
             type = "ids";
             eventFilter[type] = filter.value as string[];
             break;
+          case "authors":
+            type = "authors";
+            eventFilter[type] = filter.value as string[];
+            break;
           default:
             break;
         }

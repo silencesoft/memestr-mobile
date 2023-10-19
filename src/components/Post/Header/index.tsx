@@ -22,7 +22,7 @@ const PostHeader = ({ author }: Props) => {
         }}
       >
         <Image source={{ uri: author?.picture }} style={styles.story} />
-        <Text style={styles.userName}>{author?.username}</Text>
+        <Text style={styles.userName}>{author?.username || author?.display_name}</Text>
       </View>
       <Text style={{ color: "white", fontWeight: 700 }}>...</Text>
     </View>

@@ -7,18 +7,22 @@ import { getData } from "./getData";
 
 type Props = {
   relays: Relay[];
-  userId: string;
+  userId: string[];
 };
 
 export const getUser = async ({ relays, userId }: Props) => {
   const filters: Filter[] = [
-    { type: "author", value: userId },
+    { type: "authors", value: userId },
     { type: "kinds", value: [0] },
   ];
 
   const data: Event[] = await getData<Event>({ relays, filters });
 
-  return data?.[0]?.content ? (JSON.parse(data[0].content) as User) : {};
+  const results = data.map((item) => {
+    return { ...JSON.parse(item.content), id: item.pubkey };
+  });
+
+  return results as unknown as User[];
 };
 
 export default getUser;

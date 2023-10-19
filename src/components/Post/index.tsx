@@ -8,13 +8,14 @@ import PostLikes from "./Likes";
 import PostCaption from "./Caption";
 import PostCommentSection from "./CommentSection";
 import PostComments from "./Comments";
+import PostCarousel from "./Carousel";
 
 const Post = ({ post }: any) => {
   return (
     <View style={{ marginBottom: 30 }}>
       <PostHeader author={post.author} />
       <View style={{ marginHorizontal: 15, marginTop: 10 }}>
-        <PostImage image={post.image} />
+        {post.image.length === 1 ?  <PostImage image={post.image} /> : <PostCarousel image={post.image} />}
         <PostFooter post={post} />
         <PostLikes post={post} />
         <PostCaption post={post} />

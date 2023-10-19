@@ -7,15 +7,17 @@ type Props = {
   image: string;
 };
 
-// snippet from https://stackoverflow.com/a/66263016
-// Thomas Bones - https://stackoverflow.com/users/14764631/thomas-bones
 const PostImage = ({ image }: Props) => {
   const [imageHeight, setImageHeight] = React.useState(0);
-  Image.prefetch(image)
+  
+  // snippet from https://stackoverflow.com/a/66263016
+  // Thomas Bones - https://stackoverflow.com/users/14764631/thomas-bones
+  Image.prefetch(image[0])
     .then(() => {
       Image.getSize(image, (width, height) => {
-        let aspectRatio = height / width;
-        setImageHeight(aspectRatio * Dimensions.get("window").width);
+        const aspectRatio = height / width;
+
+        setImageHeight(aspectRatio * Dimensions.get("window").width - 30);
       });
     })
     .catch((error) => console.log(error));
@@ -31,7 +33,7 @@ const PostImage = ({ image }: Props) => {
   return (
     <View>
       <Image
-        source={{ uri: image }}
+        source={{ uri: image[0] }}
         resizeMode="center"
         style={{
           width: "100%",

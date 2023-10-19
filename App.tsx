@@ -1,7 +1,9 @@
+import 'react-native-gesture-handler';
 import React from 'react';
 import 'react-native-get-random-values';
 import 'react-native-url-polyfill/auto';
 import * as encoding from 'text-encoding';
+import { enableLegacyWebImplementation } from 'react-native-gesture-handler';
 
 import MainProvider from "src/Providers/MainProvider";
 import MainNavigator from "src/navigation/MainNavigator";
@@ -24,6 +26,8 @@ if (typeof atob === 'undefined') {
     return Buffer.from(b64Encoded, 'base64').toString('binary');
   };
 }
+
+enableLegacyWebImplementation(true);
 
 export default function App() {
   return (

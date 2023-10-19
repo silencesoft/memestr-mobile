@@ -1,4 +1,5 @@
-import React from "react";
+import React, { Suspense } from "react";
+import { ActivityIndicator } from "react-native-paper";
 
 import ThemeProvider from "./ThemeProvider";
 import RouteProvider from "./RouteProvider";
@@ -12,7 +13,9 @@ const MainProvider = ({ children }: Props) => {
   return (
     <StateProvider>
       <ThemeProvider>
-        <RouteProvider>{children}</RouteProvider>
+        <Suspense fallback={<ActivityIndicator size="large" />}>
+          <RouteProvider>{children}</RouteProvider>
+        </Suspense>
       </ThemeProvider>
     </StateProvider>
   );

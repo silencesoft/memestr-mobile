@@ -3,7 +3,7 @@ import { Relay } from "src/interfaces/nostr/relay";
 
 export const defaultRelays: Relay[] = [
   { relay: "wss://nos.lol" },
-  { relay: "wss://brb.io" },
+  // { relay: "wss://brb.io" },
   { relay: "wss://relay.damus.io" },
 ];
 

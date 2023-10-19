@@ -15,25 +15,29 @@ const Feed = (props: Props) => {
   );
 
   return (
-    <FlatList
-      // pagingEnabled={true}
-      data={items}
-      keyExtractor={(item) => item.id}
-      onEndReached={() => nextPage()}
-      renderItem={({ item, index }) => {
-        return <Post post={item} key={item.id} />;
-      }}
-      refreshControl={
-        <RefreshControl
-          refreshing={loading}
-          onRefresh={() => refresh()}
-          // tintColor="#F8852D"
+    <>
+      {!!items.length && (
+        <FlatList
+          // pagingEnabled={true}
+          data={items}
+          keyExtractor={(item) => item.id}
+          onEndReached={() => nextPage()}
+          renderItem={({ item, index }) => {
+            return <Post post={item} key={item.id} />;
+          }}
+          refreshControl={
+            <RefreshControl
+              refreshing={loading}
+              onRefresh={() => refresh()}
+              // tintColor="#F8852D"
+            />
+          }
+          ListFooterComponent={() => {
+            return loading && <ActivityIndicator />;
+          }}
         />
-      }
-      ListFooterComponent={() => {
-        return loading && <ActivityIndicator />;
-      }}
-    />
+      )}
+    </>
   );
 };
 
