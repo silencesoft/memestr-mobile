@@ -27,3 +27,5 @@ console.log({contacts})
 });
 
 export const contactsAtom = loadable<Promise<string[]>>(asyncContactsAtom);
+
+export const globalAtom = atom<boolean>(false);

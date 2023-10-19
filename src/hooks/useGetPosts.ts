@@ -13,6 +13,7 @@ import {
   profilesAtom,
   contactsAtom,
   asyncContactsAtom,
+  globalAtom,
 } from "src/state/Nostr";
 import { dateToUnix } from "src/utils/dateToUnix";
 
@@ -26,15 +27,12 @@ export const useGetPosts = (props: Props) => {
   const relays = defaultRelays;
   const [profiles, setProfiles] = useAtom(profilesAtom);
   const [loading, setLoading] = useAtom(loadingAtom);
+  const global = useAtomValue(globalAtom);
   const [lastDate, setLastDate] = useState(dateToUnix(now.current));
   const [empty, setEmpty] = useState(false);
 
   useEffect(() => {
     const filters: Filter[] = [
-      {
-        type: "authors",
-        value: contacts,
-      },
       {
         type: "tags",
         value: tags,
@@ -43,6 +41,13 @@ export const useGetPosts = (props: Props) => {
       { type: "kinds", value: [1] },
       { type: "limit", value: 10 },
     ];
+
+    if (!global) {
+      filters.push({
+        type: "authors",
+        value: contacts,
+      });
+    }
 
     const loadPosts = async () => {
       const data: Post[] = await getData<Post>({
@@ -134,6 +139,8 @@ export const useGetPosts = (props: Props) => {
     setEmpty(false);
     setPosts([]);
   };
+
+  useEffect(() => refresh(), [global]);
 
   return {
     posts,
