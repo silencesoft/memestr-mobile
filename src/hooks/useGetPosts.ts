@@ -27,13 +27,14 @@ export const useGetPosts = (props: Props) => {
   const [profiles, setProfiles] = useAtom(profilesAtom);
   const [loading, setLoading] = useAtom(loadingAtom);
   const [lastDate, setLastDate] = useState(dateToUnix(now.current));
+  const [empty, setEmpty] = useState(false);
 
   useEffect(() => {
     const filters: Filter[] = [
-      // {
-      //   type: "authors",
-      //   value: contacts,
-      // },
+      {
+        type: "authors",
+        value: contacts,
+      },
       {
         type: "tags",
         value: tags,
@@ -51,6 +52,10 @@ export const useGetPosts = (props: Props) => {
       const newPosts: Post[] = [...posts];
       const userProfiles: User[] = [...profiles];
       const authors: string[] = [];
+
+      if (!data.length) {
+        setEmpty(true);
+      }
 
       data.forEach(async (post) => {
         const imgRegex = /(http(s?):)([/|.|\w|\s|-])*\.(?:jpe?g|gif|png)/gi;
@@ -106,12 +111,12 @@ export const useGetPosts = (props: Props) => {
   }, [lastDate]);
 
   useEffect(() => {
-    if (!posts.length && !loading) {
+    if (!posts.length && !loading && !empty) {
       const newDate = new Date();
 
       setLastDate(dateToUnix(newDate));
     }
-  }, [posts]);
+  }, [empty, posts]);
 
   const nextPage = () => {
     if (!posts.length) {
@@ -126,12 +131,14 @@ export const useGetPosts = (props: Props) => {
   };
 
   const refresh = () => {
+    setEmpty(false);
     setPosts([]);
   };
 
   return {
     posts,
     loading,
+    empty,
     nextPage,
     refresh,
   };
