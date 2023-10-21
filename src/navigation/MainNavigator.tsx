@@ -16,8 +16,20 @@ const MainNavigator = (props: Props) => {
 
   return (
     <Stack.Navigator>
-      {!!userKey && <Stack.Screen name="Home" component={HomeScreen} />}
-      {!userKey && <Stack.Screen name="Login" component={LoginScreen} />}
+      {!!userKey && (
+        <Stack.Screen
+          name="Home"
+          component={HomeScreen}
+          options={{ headerShown: false }}
+        />
+      )}
+      {!userKey && (
+        <Stack.Screen
+          name="Login"
+          component={LoginScreen}
+          options={{ headerShown: false }}
+        />
+      )}
     </Stack.Navigator>
   );
 };
