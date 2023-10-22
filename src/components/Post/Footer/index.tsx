@@ -9,7 +9,7 @@ type Props = {
   post: Post;
 };
 
-const PostFooter = ({ post }: any) => {
+const PostFooter = ({ post }: Props) => {
   const { theme } = useTheme();
   const handleLike = (postId: string) => {};
 

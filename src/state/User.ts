@@ -24,6 +24,31 @@ export const loginKeyAtom = atom(
   }
 );
 
+export const privKeyAtom =  atom<Promise<string>>(async (get) => {
+  const loginKey = await get(loginKeyAtom);
+  let nsecKey = "";
+
+  if (!loginKey) {
+    return "";
+  }
+
+  const isNsec = loginKey.startsWith("nsec");
+
+  if (isNsec) {
+    try {
+      const { data } = await nip19.decode(loginKey);
+      nsecKey = data.toString();
+    } catch (error) {
+      console.log(error);
+      return "";
+    }
+  }
+
+  const privKey = isNsec ? nsecKey : loginKey;
+
+  return privKey;
+});
+
 export const pubKeyAtom = atom<Promise<string>>(async (get) => {
   const privKey = await get(loginKeyAtom);
   let nsecKey = "";

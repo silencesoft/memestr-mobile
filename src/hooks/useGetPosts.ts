@@ -1,7 +1,7 @@
 import { useAtom, useAtomValue } from "jotai";
 import { useEffect, useRef, useState } from "react";
 
-import { defaultRelays } from "src/constants/defaultValues";
+import { defaultRelays, defaultTags } from "src/constants/defaultValues";
 import { Filter } from "src/interfaces/nostr/filter";
 import { Post } from "src/interfaces/post";
 import { User } from "src/interfaces/user/user";
@@ -23,7 +23,7 @@ export const useGetPosts = (props: Props) => {
   const now = useRef(new Date());
   const contacts = useAtomValue(asyncContactsAtom);
   const [posts, setPosts] = useAtom(postsAtom);
-  const tags = ["memes", "meme", "funny", "memestr"];
+  const tags = defaultTags;
   const relays = defaultRelays;
   const [profiles, setProfiles] = useAtom(profilesAtom);
   const [loading, setLoading] = useAtom(loadingAtom);

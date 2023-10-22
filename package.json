@@ -15,9 +15,13 @@
     "@react-navigation/native-stack": "^6.9.14",
     "big-integer": "^1.6.51",
     "expo": "~49.0.13",
+    "expo-camera": "~13.4.4",
+    "expo-image-picker": "~14.3.2",
+    "expo-media-library": "~15.4.1",
     "expo-secure-store": "~12.3.1",
     "expo-status-bar": "~1.6.0",
     "jotai": "^2.4.3",
+    "mime": "^3.0.0",
     "nostr-tools": "^1.16.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -31,11 +35,13 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
     "react-native-web": "~0.19.6",
-    "text-encoding": "^0.7.0"
+    "text-encoding": "^0.7.0",
+    "expo-splash-screen": "~0.20.5"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",
     "@svgr/webpack": "^8.1.0",
+    "@types/mime": "^3.0.3",
     "@types/react": "~18.2.14",
     "@types/text-encoding": "^0.0.37",
     "react-native-svg-transformer": "^1.1.0",

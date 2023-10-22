@@ -30,7 +30,7 @@ const PostCarousel = ({ image }: Props) => {
     .then(() => {
       Image.getSize(image[0], (width, height) => {
         let aspectRatio = height / width;
-        console.log(image[0], { aspectRatio, height, width });
+
         setImageHeight(aspectRatio * viewWidth);
       });
     })

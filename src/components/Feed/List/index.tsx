@@ -11,9 +11,8 @@ const FeedList = (props: Props) => {
   const { posts, loading, nextPage, refresh } = useGetPosts({});
   const items = posts.filter(
     (value: PostProps, index: number, self: PostProps[]) =>
-      self.findIndex((v: { id: any }) => v.id === value.id) === index
+      self.findIndex((v: { id: string }) => v.id === value.id) === index
   );
-  console.log("list");
 
   return (
     <FlatList

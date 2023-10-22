@@ -19,17 +19,21 @@ const Feed = (props: Props) => {
   const { posts, loading, empty, nextPage, refresh } = useGetPosts({});
   const items = posts.filter(
     (value: PostProps, index: number, self: PostProps[]) =>
-      self.findIndex((v: { id: any }) => v.id === value.id) === index
+      self.findIndex((v: { id: string }) => v.id === value.id) === index
   );
   const { theme } = useTheme();
 
-  if (empty) {
+  if (empty && !items.length) {
     return (
       <View style={{ alignItems: "center", marginTop: 30 }}>
         <Ionicons name="ios-close-circle" size={48} color={theme.colors.text} />
         <Text variant="labelSmall">No results</Text>
       </View>
     );
+  }
+
+  if (loading && !empty && !items.length) {
+    return <ActivityIndicator />;
   }
 
   return (

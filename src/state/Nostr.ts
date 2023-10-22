@@ -22,7 +22,7 @@ export const asyncContactsAtom = atom<Promise<string[]>>(async (get): Promise<st
     userId: user.toString(),
     relays: defaultRelays,
   });
-console.log({contacts})
+
   return contacts;
 });
 

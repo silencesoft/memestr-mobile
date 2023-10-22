@@ -8,3 +8,5 @@ export const defaultRelays: Relay[] = [
 ];
 
 export const defaultFilter: Filter = { type: "", value: "" };
+
+export const defaultTags = ["memestr", "memes", "meme", "funny"];

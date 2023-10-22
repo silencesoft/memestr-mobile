@@ -1,6 +1,5 @@
 import React from "react";
 import { Dimensions, Image, View } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
 import { ActivityIndicator } from "react-native-paper";
 
 type Props = {
@@ -9,10 +8,10 @@ type Props = {
 
 const PostImage = ({ image }: Props) => {
   const [imageHeight, setImageHeight] = React.useState(0);
-  
+
   // snippet from https://stackoverflow.com/a/66263016
   // Thomas Bones - https://stackoverflow.com/users/14764631/thomas-bones
-  Image.prefetch(image[0])
+  Image.prefetch(image)
     .then(() => {
       Image.getSize(image, (width, height) => {
         const aspectRatio = height / width;
@@ -30,10 +29,14 @@ const PostImage = ({ image }: Props) => {
     );
   }
 
+  if (!image) {
+    return <View></View>;
+  }
+
   return (
     <View>
       <Image
-        source={{ uri: image[0] }}
+        source={{ uri: image }}
         resizeMode="center"
         style={{
           width: "100%",

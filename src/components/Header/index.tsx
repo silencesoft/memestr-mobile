@@ -1,27 +1,26 @@
 import React from "react";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { useAtom } from "jotai";
+import { useNavigation } from "@react-navigation/native";
 
-import Logo from "../../../assets/memestr.svg";
+import Logo from "../../../assets/memestr-c.svg";
 import { useTheme } from "src/Providers/ThemeProvider";
 import ButtonIcon from "../ButtonIcon";
-import { useAtom } from "jotai";
 import { globalAtom } from "src/state/Nostr";
+import { createScreenProp } from "src/interfaces/navigation/props";
+import { useGetPosts } from "src/hooks/useGetPosts";
 
 const Header = () => {
   const { theme } = useTheme();
+  const { loading } = useGetPosts({});
   const [global, setGlobal] = useAtom(globalAtom);
-  const navigation: any = {};
-  //   const auth = getAuth()
+  const navigation = useNavigation<createScreenProp>();
   const signOutUser = async () => {
-    //     try {
-    //       await signOut(auth)
-    //       console.log('Signed out successfully')
-    //     } catch (error) {
-    //       console.log(error)
-    //     }
   };
 
-  const handleGlobalClick = () => setGlobal(!global);
+  const handleCreate = () => navigation.navigate("Create");
+
+  const handleGlobalClick = () => !loading && setGlobal(!global);
 
   return (
     <View style={styles.container}>
@@ -30,15 +29,11 @@ const Header = () => {
       </TouchableOpacity>
 
       <View style={styles.iconContainer}>
-        <TouchableOpacity onPress={() => navigation.push("NewPostScreen")}>
-          <Image
-            style={styles.icon}
-            source={{
-              uri: "https://img.icons8.com/fluency-systems-regular/60/ffffff/plus-2-math.png",
-            }}
-          />
-        </TouchableOpacity>
-        <ButtonIcon icon={global ? "people-outline" : "earth-outline"} handleClick={handleGlobalClick} />
+        <ButtonIcon icon={"md-add-circle-outline"} handleClick={handleCreate} />
+        <ButtonIcon
+          icon={global ? "people-outline" : "earth-outline"}
+          handleClick={handleGlobalClick}
+        />
         <TouchableOpacity>
           <View style={styles.unreadBadge}>
             <Text style={styles.unreadBadgeText}>12</Text>
@@ -63,14 +58,17 @@ const styles = StyleSheet.create({
     alignItems: "center",
     flexDirection: "row",
     marginHorizontal: 20,
+    paddingTop: 10,
+    paddingBottom: 10,
   },
   logo: {
-    width: 100,
-    height: 50,
+    width: 75,
+    height: 20,
     resizeMode: "contain",
   },
   iconContainer: {
     flexDirection: "row",
+    gap: 10,
   },
   icon: {
     width: 30,
@@ -92,6 +90,6 @@ const styles = StyleSheet.create({
   },
   unreadBadgeText: {
     color: "white",
-    fontWeight: 600,
+    fontWeight: "600",
   },
 });
