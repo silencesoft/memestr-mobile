@@ -24,7 +24,7 @@ export const loginKeyAtom = atom(
   }
 );
 
-export const privKeyAtom =  atom<Promise<string>>(async (get) => {
+export const privKeyAtom = atom<Promise<string>>(async (get) => {
   const loginKey = await get(loginKeyAtom);
   let nsecKey = "";
 

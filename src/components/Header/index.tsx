@@ -15,8 +15,7 @@ const Header = () => {
   const { loading } = useGetPosts({});
   const [global, setGlobal] = useAtom(globalAtom);
   const navigation = useNavigation<createScreenProp>();
-  const signOutUser = async () => {
-  };
+  const signOutUser = async () => {};
 
   const handleCreate = () => navigation.navigate("Create");
 

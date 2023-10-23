@@ -5,17 +5,18 @@ import { SvgUri } from "react-native-svg";
 import Logo from "../../../assets/memestr.svg";
 import { useTheme } from "src/Providers/ThemeProvider";
 import LoginForm from "src/components/Login";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 const LoginScreen = () => {
   const { theme } = useTheme();
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <View style={styles.logoContainer}>
         <Logo width="100" height="100" fill={theme.colors.text} />
       </View>
       <LoginForm />
-    </View>
+    </SafeAreaView>
   );
 };
 

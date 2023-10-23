@@ -2,7 +2,7 @@
   "expo": {
     "name": "memestr-mobile",
     "displayName": "Memestr",
-    "slug": "memestr-mobile",
+    "slug": "memestr",
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,7 +12,9 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "expo": {
       "plugins": [
         [
@@ -46,6 +48,12 @@
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "extra": {
+      "eas": {
+        "projectId": "8aa58b7c-d845-4e92-af21-f212bf918e55"
+      }
+    },
+    "owner": "silencesoft"
   }
 }

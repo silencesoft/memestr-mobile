@@ -16,7 +16,7 @@ export interface Post {
   content: string;
   pubkey: string;
   video: string;
-  image: string;
+  image: string[];
   tags: string[];
   created_at: number;
   aRefs?: Refs[];
