@@ -55,7 +55,7 @@ const CaptureScreen = (props: Props) => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
       allowsEditing: true,
-      aspect: [9, 16],
+      // aspect: [9, 16],
       quality: 1,
     });
 

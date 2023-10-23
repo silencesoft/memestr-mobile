@@ -131,7 +131,7 @@ const NewPostScreen = ({ route }: Props) => {
   if (requestRunning) {
     return (
       <View style={styles.uploadingContainer}>
-        <ActivityIndicator color="red" size="large" />
+        <ActivityIndicator size="large" />
       </View>
     );
   }
@@ -243,9 +243,9 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   uploadingContainer: {
-    // flex: 1,
-    // alignItems: "center",
-    // justifyContent: "center",
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
   spacer: {
     // flex: 1,
