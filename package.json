@@ -11,6 +11,7 @@
   "dependencies": {
     "@expo/webpack-config": "^19.0.0",
     "@react-native-async-storage/async-storage": "1.18.2",
+    "@react-navigation/material-bottom-tabs": "^6.2.19",
     "@react-navigation/native": "^6.1.8",
     "@react-navigation/native-stack": "^6.9.14",
     "big-integer": "^1.6.51",
@@ -19,6 +20,7 @@
     "expo-image-picker": "~14.3.2",
     "expo-media-library": "~15.4.1",
     "expo-secure-store": "~12.3.1",
+    "expo-splash-screen": "~0.20.5",
     "expo-status-bar": "~1.6.0",
     "jotai": "^2.4.3",
     "mime": "^3.0.0",
@@ -35,8 +37,7 @@
     "react-native-screens": "~3.22.0",
     "react-native-svg": "13.9.0",
     "react-native-web": "~0.19.6",
-    "text-encoding": "^0.7.0",
-    "expo-splash-screen": "~0.20.5"
+    "text-encoding": "^0.7.0"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

@@ -33,7 +33,7 @@ const Header = () => {
           icon={global ? "people-outline" : "earth-outline"}
           handleClick={handleGlobalClick}
         />
-        <TouchableOpacity>
+        {/* <TouchableOpacity>
           <View style={styles.unreadBadge}>
             <Text style={styles.unreadBadgeText}>12</Text>
           </View>
@@ -43,7 +43,7 @@ const Header = () => {
               uri: "https://img.icons8.com/fluency-systems-regular/60/ffffff/facebook-messenger.png",
             }}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
     </View>
   );
