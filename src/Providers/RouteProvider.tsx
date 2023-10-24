@@ -1,7 +1,5 @@
 import { NavigationContainer } from "@react-navigation/native";
-import React, { Suspense } from "react";
-import { StyleSheet, View } from "react-native";
-import { ActivityIndicator } from "react-native-paper";
+import React from "react";
 
 import { useTheme } from "./ThemeProvider";
 
@@ -13,31 +11,9 @@ const RouteProvider = ({ children }: Props) => {
   const { theme } = useTheme();
 
   return (
-    <Suspense
-      fallback={
-        <View
-          style={{
-            ...styles.container,
-            backgroundColor: theme.colors.background,
-          }}
-        >
-          <ActivityIndicator size="large" />
-        </View>
-      }
-    >
-      <NavigationContainer theme={theme}>{children}</NavigationContainer>
-    </Suspense>
+    <NavigationContainer theme={theme}>{children}</NavigationContainer>
   );
 };
 
 export default RouteProvider;
 
-const styles = StyleSheet.create({
-  container: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: '100%',
-    height: '100%'
-  },
-});

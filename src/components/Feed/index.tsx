@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Suspense } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -33,11 +33,21 @@ const Feed = (props: Props) => {
   }
 
   if (loading && !empty && !items.length) {
-    return <ActivityIndicator />;
+    return (
+      <View style={{ alignItems: "center", marginTop: 30 }}>
+        <ActivityIndicator />
+      </View>
+    );
   }
 
   return (
-    <>
+    <Suspense
+      fallback={
+        <View style={{ alignItems: "center", marginTop: 30 }}>
+          <ActivityIndicator />
+        </View>
+      }
+    >
       {!!items.length && (
         <FlatList
           // pagingEnabled={true}
@@ -55,11 +65,17 @@ const Feed = (props: Props) => {
             />
           }
           ListFooterComponent={() => {
-            return loading && <ActivityIndicator />;
+            return (
+              loading && (
+                <View style={{ alignItems: "center", marginTop: 30 }}>
+                  <ActivityIndicator />
+                </View>
+              )
+            );
           }}
         />
       )}
-    </>
+    </Suspense>
   );
 };
 

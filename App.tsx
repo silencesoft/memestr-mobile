@@ -7,6 +7,7 @@ import React from "react";
 
 import MainProvider from "src/Providers/MainProvider";
 import MainNavigator from "src/navigation/MainNavigator";
+import SuspenseProvider from "src/Providers/SuspenseProvider";
 
 global.Buffer = global.Buffer || require("safe-buffer").Buffer;
 
@@ -32,7 +33,9 @@ enableLegacyWebImplementation(true);
 export default function App() {
   return (
     <MainProvider>
-      <MainNavigator />
+      <SuspenseProvider>
+        <MainNavigator />
+      </SuspenseProvider>
     </MainProvider>
   );
 }
