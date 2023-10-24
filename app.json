@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "memestr-mobile",
-    "displayName": "Memestr",
-    "slug": "memestr",
+    "name": "#Memestr",
+    "slug": "memestr-mobile",
     "version": "0.1.0",
+    "owner": "silencesoft",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -53,7 +53,6 @@
       "eas": {
         "projectId": "8aa58b7c-d845-4e92-af21-f212bf918e55"
       }
-    },
-    "owner": "silencesoft"
+    }
   }
 }
