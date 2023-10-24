@@ -1,20 +1,28 @@
-import { DataURIToBlob } from "src/utils/dataUriToBlob";
+import * as mime from "mime";
 
 export const saveMedia = async (media: string) => {
   if (!media) return "";
 
   const formData = new FormData();
-  const blob = DataURIToBlob(media);
-  const ext = media.match(/[^:/]\w+(?=;|,)/)?.[0];
+  const type =
+    media.indexOf("base64") >= 0
+      ? media.match(/[^:]\w+\/[\w-+\d.]+(?=;|,)/)?.[0]
+      : mime.getType(media);
 
-  formData.append("image", blob, "filename." + ext);
+  //@ts-ignore
+  formData.append("file", {
+    uri: media,
+    type,
+    name: "picture",
+  });
+  formData.append("submit", "Upload Image");
 
   const headers = {
     Accept: "application/json, */*",
-    //   'Content-Type': 'multipart/form-data',
+    // "Content-Type": "multipart/form-data",
   };
 
-  const url = await fetch("https://nostrimg.com/api/upload", {
+  const url = await fetch("https://nostr.build/api/v2/upload/files", {
     headers,
     method: "POST",
     body: formData,
@@ -22,8 +30,8 @@ export const saveMedia = async (media: string) => {
     .then(async (response) => {
       const result = await response.json();
 
-      if (result?.imageUrl) {
-        return result?.imageUrl;
+      if (result?.data?.[0].url) {
+        return result.data[0].url;
       } else {
         return "";
       }
