@@ -3,10 +3,8 @@ import { useAtomValue } from "jotai";
 import React from "react";
 
 import { RootStackParamList } from "src/constants/RootStackParamList";
-import HomeScreen from "src/screens/Home";
 import LoginScreen from "src/screens/Login";
 import { pubKeyAtom } from "src/state/User";
-import { useTheme } from "src/Providers/ThemeProvider";
 import CreateNavigator from "./CreateNavigator";
 import TabNavigator from "./TabNavigator";
 
@@ -16,14 +14,13 @@ type Props = {};
 
 const MainNavigator = (props: Props) => {
   const userKey = useAtomValue(pubKeyAtom);
-  const { theme } = useTheme();
 
   return (
       <Stack.Navigator>
         {!!userKey && (
           <>
             <Stack.Screen
-              name="Home"
+              name="TabNavigator"
               component={TabNavigator}
               options={{ headerShown: false }}
             />

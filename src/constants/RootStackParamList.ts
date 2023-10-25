@@ -4,4 +4,5 @@ export type RootStackParamList = {
   Create: undefined;
   Capture: undefined;
   NewPost: { id?: string; source: string; type: string; name: string };
+  TabNavigator: undefined;
 };

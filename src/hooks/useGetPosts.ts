@@ -1,7 +1,7 @@
 import { useAtom, useAtomValue } from "jotai";
 import { useEffect, useRef, useState } from "react";
 
-import { defaultRelays, defaultTags } from "src/constants/defaultValues";
+import { defaultTags } from "src/constants/defaultValues";
 import { Filter } from "src/interfaces/nostr/filter";
 import { Post } from "src/interfaces/post";
 import { User } from "src/interfaces/user/user";
@@ -11,20 +11,20 @@ import {
   loadingAtom,
   postsAtom,
   profilesAtom,
-  contactsAtom,
-  asyncContactsAtom,
   globalAtom,
 } from "src/state/Nostr";
+import { contactsAtom, getRelaysAtom } from "src/state/User";
 import { dateToUnix } from "src/utils/dateToUnix";
+import { Post as PostProps } from "src/interfaces/post";
 
 type Props = {};
 
 export const useGetPosts = (props: Props) => {
   const now = useRef(new Date());
-  const contacts = useAtomValue(asyncContactsAtom);
+  const contacts = useAtomValue(contactsAtom);
   const [posts, setPosts] = useAtom(postsAtom);
   const tags = defaultTags;
-  const relays = defaultRelays;
+  const relays = useAtomValue(getRelaysAtom);
   const [profiles, setProfiles] = useAtom(profilesAtom);
   const [loading, setLoading] = useAtom(loadingAtom);
   const global = useAtomValue(globalAtom);
@@ -50,6 +50,10 @@ export const useGetPosts = (props: Props) => {
     }
 
     const loadPosts = async () => {
+      if (!relays.length) {
+        return;
+      }
+
       const data: Post[] = await getData<Post>({
         relays,
         filters,
@@ -90,6 +94,11 @@ export const useGetPosts = (props: Props) => {
         userId: authors,
       })
         .then(async (users) => {
+          if (!users?.length) {
+            setPosts(newPosts);
+            return;
+          }
+
           await setProfiles([...userProfiles, ...users]);
 
           const result = newPosts.map((post) => {
@@ -109,26 +118,41 @@ export const useGetPosts = (props: Props) => {
         });
     };
 
-    if (!loading) {
+    if (!loading && relays.length) {
       setLoading(true);
       loadPosts();
     }
   }, [lastDate]);
 
   useEffect(() => {
-    if (!posts.length && !loading && !empty) {
+    const isGlobalOrHasContacts = (!global && contacts.length) || !!global;
+
+    if (
+      !posts.length &&
+      !loading &&
+      !empty &&
+      relays.length &&
+      isGlobalOrHasContacts
+    ) {
       const newDate = new Date();
 
       setLastDate(dateToUnix(newDate));
     }
-  }, [empty, posts]);
+  }, [empty, posts.length, relays.length, contacts.length]);
 
   const nextPage = () => {
     if (!posts.length) {
       return;
     }
 
-    const lastDate = Math.min(...posts.map((e) => e.created_at));
+    const items = posts.filter(
+      (value: PostProps, index: number, self: PostProps[]) =>
+        self.findIndex((v: { id: string }) => v.id === value.id) === index
+    );
+    const dates = items.map((e) => e.created_at).sort((a, b) => b - a);
+    const last = dates.slice(-2);
+    const days = (last[0] - last[1]) / (1000 * 60 * 60 * 24);
+    const lastDate = days > 0.01 ? last[0] : last[1];
 
     if (!loading) {
       setLastDate(lastDate - 1);

@@ -16,16 +16,4 @@ export const loadingAtom = atom<boolean>(false);
 
 export const postsAtom = atom<Post[]>([]);
 
-export const asyncContactsAtom = atom<Promise<string[]>>(async (get): Promise<string[]> => {
-  const user = await get(pubKeyAtom);
-  const contacts = await getContacts({
-    userId: user.toString(),
-    relays: defaultRelays,
-  });
-
-  return contacts;
-});
-
-export const contactsAtom = loadable<Promise<string[]>>(asyncContactsAtom);
-
 export const globalAtom = atom<boolean>(false);
