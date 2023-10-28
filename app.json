@@ -2,7 +2,7 @@
   "expo": {
     "name": "#Memestr Mob",
     "slug": "memestr",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "owner": "silencesoft",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
