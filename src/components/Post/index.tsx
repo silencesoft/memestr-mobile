@@ -23,7 +23,7 @@ const Post = ({ post }: Props) => {
         {post.image.length === 1 && <PostImage image={post.image[0]} />}
         {post.image.length > 1 && <PostCarousel image={post.image} />}
         <PostFooter post={post} />
-        <PostLikes post={post} />
+        <PostLikes id={post.id} />
         <PostCaption post={post} />
         <PostCommentSection post={post} />
         <PostComments post={post} />

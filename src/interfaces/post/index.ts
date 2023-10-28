@@ -25,3 +25,15 @@ export interface Post {
   comments: string[];
   author: User;
 }
+
+export interface PostLikes {
+  [key: string]: number;
+}
+
+export interface Reaction {
+  id: string;
+  content: string;
+  pubkey: string;
+  tags: string[];
+  created_at: number;
+}

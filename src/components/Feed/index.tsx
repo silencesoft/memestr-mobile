@@ -17,10 +17,10 @@ type Props = {};
 
 const Feed = (props: Props) => {
   const { posts, loading, empty, nextPage, refresh } = useGetPosts({});
-  const items = posts.filter(
+  const items = [...posts.filter(
     (value: PostProps, index: number, self: PostProps[]) =>
       self.findIndex((v: { id: string }) => v.id === value.id) === index
-  );
+  )];
   const { theme } = useTheme();
 
   if (empty && !items.length) {

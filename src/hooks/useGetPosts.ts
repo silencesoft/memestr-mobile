@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 
 import { defaultTags } from "src/constants/defaultValues";
 import { Filter } from "src/interfaces/nostr/filter";
-import { Post } from "src/interfaces/post";
+import { Post, PostLikes } from "src/interfaces/post";
 import { User } from "src/interfaces/user/user";
 import { getData } from "src/services/getData";
 import getUser from "src/services/getUser";
@@ -12,10 +12,12 @@ import {
   postsAtom,
   profilesAtom,
   globalAtom,
+  postsReactionsAtom,
 } from "src/state/Nostr";
 import { contactsAtom, getRelaysAtom } from "src/state/User";
 import { dateToUnix } from "src/utils/dateToUnix";
 import { Post as PostProps } from "src/interfaces/post";
+import { getReactions } from "src/services/getReactions";
 
 type Props = {};
 
@@ -26,6 +28,7 @@ export const useGetPosts = (props: Props) => {
   const tags = defaultTags;
   const relays = useAtomValue(getRelaysAtom);
   const [profiles, setProfiles] = useAtom(profilesAtom);
+  const [reactions, setReactions] = useAtom(postsReactionsAtom);
   const [loading, setLoading] = useAtom(loadingAtom);
   const global = useAtomValue(globalAtom);
   const [lastDate, setLastDate] = useState(dateToUnix(now.current));
@@ -61,6 +64,7 @@ export const useGetPosts = (props: Props) => {
       const newPosts: Post[] = [...posts];
       const userProfiles: User[] = [...profiles];
       const authors: string[] = [];
+      const postsList: string[] = [];
 
       if (!data.length) {
         setEmpty(true);
@@ -86,7 +90,29 @@ export const useGetPosts = (props: Props) => {
           authors.push(post.pubkey);
 
           newPosts.push(post);
+          postsList.push(post.id);
         }
+      });
+
+      getReactions({ relays, posts: postsList }).then((data) => {
+        const result: PostLikes = {};
+        const currentReactions = { ...reactions };
+
+        data?.forEach((reaction) => {
+          const eRefs = reaction.tags.filter((tag) => tag[0] === "e");
+
+          if (eRefs.length && reaction.content !== "-") {
+            const pubkey = eRefs[0][1];
+
+            if (result[pubkey]) {
+              result[pubkey]++;
+            } else {
+              result[pubkey] = 1;
+            }
+          }
+        });
+
+        setReactions({ ...currentReactions, ...result });
       });
 
       getUser({
@@ -99,10 +125,12 @@ export const useGetPosts = (props: Props) => {
             return;
           }
 
-          await setProfiles([...userProfiles, ...users]);
+          const usersList = [...userProfiles, ...users];
+
+          await setProfiles(usersList);
 
           const result = newPosts.map((post) => {
-            const author = users.filter(
+            const author = usersList.filter(
               (profile) => profile.id === post.pubkey
             );
             return { ...post, ...{ author: author.length ? author[0] : {} } };
@@ -128,7 +156,7 @@ export const useGetPosts = (props: Props) => {
     const isGlobalOrHasContacts = (!global && contacts.length) || !!global;
 
     if (
-      !posts.length &&
+      !posts?.length &&
       !loading &&
       !empty &&
       relays.length &&
@@ -141,7 +169,7 @@ export const useGetPosts = (props: Props) => {
   }, [empty, posts.length, relays.length, contacts.length]);
 
   const nextPage = () => {
-    if (!posts.length) {
+    if (!posts?.length) {
       return;
     }
 

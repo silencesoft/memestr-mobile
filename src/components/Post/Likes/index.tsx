@@ -1,19 +1,25 @@
+import { useAtomValue } from "jotai";
 import React from "react";
 import { View } from "react-native";
 import { Text } from "react-native-paper";
 
-import { Post } from "src/interfaces/post";
+import { postsReactionsAtom } from "src/state/Nostr";
 
 type Props = {
-  post: Post;
+  id: string;
 };
 
-const PostLikes = ({ post }: Props) => (
-  <View style={{ flexDirection: "row", marginTop: 5 }}>
-    <Text style={{ fontWeight: 600 }}>
-      {post.liked?.length?.toLocaleString("en")} likes
-    </Text>
-  </View>
-);
+const PostLikes = ({ id }: Props) => {
+  const reactions = useAtomValue(postsReactionsAtom);
+  const likes = reactions?.[id] || "0";
+
+  return (
+    <View style={{ flexDirection: "row", marginTop: 5 }}>
+      <Text style={{ fontWeight: 600 }}>
+        {likes.toLocaleString("en")} likes
+      </Text>
+    </View>
+  );
+};
 
 export default PostLikes;

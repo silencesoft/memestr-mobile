@@ -48,6 +48,10 @@ export const getFilters = (filters: AppFilter[]): Filter => {
             type = "#t";
             eventFilter[type] = filter.value as string[];
             break;
+          case "events":
+            type = "#e";
+            eventFilter[type] = filter.value as string[];
+            break;
           case "posts":
             type = "ids";
             eventFilter[type] = filter.value as string[];
