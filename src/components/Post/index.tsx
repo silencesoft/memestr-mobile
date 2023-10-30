@@ -1,5 +1,5 @@
-import React from "react";
-import { View } from "react-native";
+import React, { Suspense } from "react";
+import { ActivityIndicator, View } from "react-native";
 
 import PostHeader from "./Header";
 import PostImage from "./Image";
@@ -18,12 +18,18 @@ type Props = {
 const Post = ({ post }: Props) => {
   return (
     <View style={{ marginBottom: 30 }}>
-      <PostHeader author={post.author} />
+      <Suspense fallback={<ActivityIndicator />}>
+        <PostHeader author={post.author} />
+      </Suspense>
       <View style={{ marginHorizontal: 15, marginTop: 10 }}>
         {post.image.length === 1 && <PostImage image={post.image[0]} />}
         {post.image.length > 1 && <PostCarousel image={post.image} />}
-        <PostFooter post={post} />
-        <PostLikes id={post.id} />
+        <Suspense fallback={<ActivityIndicator />}>
+          <PostFooter id={post.id} />
+        </Suspense>
+        <Suspense fallback={<ActivityIndicator />}>
+          <PostLikes id={post.id} />
+        </Suspense>
         <PostCaption post={post} />
         <PostCommentSection post={post} />
         <PostComments post={post} />

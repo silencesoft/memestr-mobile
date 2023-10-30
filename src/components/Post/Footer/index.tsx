@@ -1,17 +1,23 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import { useAtomValue } from "jotai";
 
 import { useTheme } from "src/Providers/ThemeProvider";
-import { Post } from "src/interfaces/post";
+import { postsLikesAtom } from "src/state/Nostr";
+import { pubKeyAtom } from "src/state/User";
 
 type Props = {
-  post: Post;
+  id: string;
 };
 
-const PostFooter = ({ post }: Props) => {
+const PostFooter = ({ id }: Props) => {
   const { theme } = useTheme();
   const handleLike = (postId: string) => {};
+  const userKey = useAtomValue(pubKeyAtom);
+  const reactions = useAtomValue(postsLikesAtom);
+  const likes = reactions?.[id] || [];
+  const liked = likes?.includes(userKey);
 
   return (
     <View
@@ -22,8 +28,8 @@ const PostFooter = ({ post }: Props) => {
       }}
     >
       <View style={styles.leftFooterIconContainer}>
-        <TouchableOpacity onPress={() => handleLike(post.id)}>
-          {post.liked ? (
+        <TouchableOpacity onPress={() => handleLike(id)}>
+          {liked ? (
             <Ionicons
               name="md-heart-sharp"
               size={32}

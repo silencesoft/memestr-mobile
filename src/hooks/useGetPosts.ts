@@ -12,12 +12,10 @@ import {
   postsAtom,
   profilesAtom,
   globalAtom,
-  postsReactionsAtom,
 } from "src/state/Nostr";
 import { contactsAtom, getRelaysAtom } from "src/state/User";
 import { dateToUnix } from "src/utils/dateToUnix";
 import { Post as PostProps } from "src/interfaces/post";
-import { getReactions } from "src/services/getReactions";
 
 type Props = {};
 
@@ -28,10 +26,10 @@ export const useGetPosts = (props: Props) => {
   const tags = defaultTags;
   const relays = useAtomValue(getRelaysAtom);
   const [profiles, setProfiles] = useAtom(profilesAtom);
-  const [reactions, setReactions] = useAtom(postsReactionsAtom);
   const [loading, setLoading] = useAtom(loadingAtom);
   const global = useAtomValue(globalAtom);
-  const [lastDate, setLastDate] = useState(dateToUnix(now.current));
+  // const [lastDate, setLastDate] = useState(dateToUnix(now.current));
+  const [lastDate, setLastDate] = useState<number | null>(null);
   const [empty, setEmpty] = useState(false);
 
   useEffect(() => {
@@ -40,7 +38,7 @@ export const useGetPosts = (props: Props) => {
         type: "tags",
         value: tags,
       },
-      { type: "until", value: lastDate },
+      { type: "until", value: lastDate || 0 },
       { type: "kinds", value: [1] },
       { type: "limit", value: 10 },
     ];
@@ -94,27 +92,6 @@ export const useGetPosts = (props: Props) => {
         }
       });
 
-      getReactions({ relays, posts: postsList }).then((data) => {
-        const result: PostLikes = {};
-        const currentReactions = { ...reactions };
-
-        data?.forEach((reaction) => {
-          const eRefs = reaction.tags.filter((tag) => tag[0] === "e");
-
-          if (eRefs.length && reaction.content !== "-") {
-            const pubkey = eRefs[0][1];
-
-            if (result[pubkey]) {
-              result[pubkey]++;
-            } else {
-              result[pubkey] = 1;
-            }
-          }
-        });
-
-        setReactions({ ...currentReactions, ...result });
-      });
-
       getUser({
         relays: relays,
         userId: authors,
@@ -146,7 +123,7 @@ export const useGetPosts = (props: Props) => {
         });
     };
 
-    if (!loading && relays.length) {
+    if (!loading && relays.length && lastDate) {
       setLoading(true);
       loadPosts();
     }
@@ -154,13 +131,13 @@ export const useGetPosts = (props: Props) => {
 
   useEffect(() => {
     const isGlobalOrHasContacts = (!global && contacts.length) || !!global;
-
     if (
       !posts?.length &&
       !loading &&
       !empty &&
       relays.length &&
-      isGlobalOrHasContacts
+      isGlobalOrHasContacts &&
+      !lastDate
     ) {
       const newDate = new Date();
 

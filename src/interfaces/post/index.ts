@@ -27,7 +27,7 @@ export interface Post {
 }
 
 export interface PostLikes {
-  [key: string]: number;
+  [key: string]: string[];
 }
 
 export interface Reaction {
