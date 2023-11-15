@@ -143,7 +143,7 @@ export const useGetPosts = (props: Props) => {
 
       setLastDate(dateToUnix(newDate));
     }
-  }, [empty, posts.length, relays.length, contacts.length]);
+  }, [empty, posts?.length, relays?.length, contacts?.length]);
 
   const nextPage = () => {
     if (!posts?.length) {

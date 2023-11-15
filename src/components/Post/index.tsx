@@ -25,7 +25,7 @@ const Post = ({ post }: Props) => {
         {post.image.length === 1 && <PostImage image={post.image[0]} />}
         {post.image.length > 1 && <PostCarousel image={post.image} />}
         <Suspense fallback={<ActivityIndicator />}>
-          <PostFooter id={post.id} />
+          <PostFooter id={post.id} author={post.author} />
         </Suspense>
         <Suspense fallback={<ActivityIndicator />}>
           <PostLikes id={post.id} />

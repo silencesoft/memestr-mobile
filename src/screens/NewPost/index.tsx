@@ -26,9 +26,9 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { ScrollView } from "react-native-gesture-handler";
 import { saveMedia } from "src/services/saveMedia";
 import { dateToUnix } from "src/utils/dateToUnix";
-import { privKeyAtom, pubKeyAtom } from "src/state/User";
+import { getRelaysAtom, privKeyAtom, pubKeyAtom } from "src/state/User";
 import sendPost from "src/services/sendPost";
-import { defaultRelays, defaultTags } from "src/constants/defaultValues";
+import { defaultTags } from "src/constants/defaultValues";
 import { homeScreenProp } from "src/interfaces/navigation/props";
 
 interface Props extends NativeStackScreenProps<RootStackParamList, "NewPost"> {}
@@ -44,7 +44,7 @@ const NewPostScreen = ({ route }: Props) => {
   const [description, setDescription] = useState("");
   const [tags, setTags] = useState("");
   const [checked, setChecked] = useState(false);
-  const relays = defaultRelays;
+  const relays = useAtomValue(getRelaysAtom);
 
   const handleSavePost = async () => {
     let image = "";
@@ -116,7 +116,7 @@ const NewPostScreen = ({ route }: Props) => {
 
       await sendPost({ relays, newEvent: signedEvent });
 
-      navigation.navigate('Home');
+      navigation.navigate("Home");
 
       setRequestRunning(false);
     } catch (e) {

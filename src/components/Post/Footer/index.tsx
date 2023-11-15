@@ -1,23 +1,18 @@
 import React from "react";
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { useAtomValue } from "jotai";
 
 import { useTheme } from "src/Providers/ThemeProvider";
-import { postsLikesAtom } from "src/state/Nostr";
-import { pubKeyAtom } from "src/state/User";
+import Like from "./Like";
+import { User } from "src/interfaces/user/user";
 
 type Props = {
   id: string;
+  author: User;
 };
 
-const PostFooter = ({ id }: Props) => {
+const PostFooter = ({ id, author }: Props) => {
   const { theme } = useTheme();
-  const handleLike = (postId: string) => {};
-  const userKey = useAtomValue(pubKeyAtom);
-  const reactions = useAtomValue(postsLikesAtom);
-  const likes = reactions?.[id] || [];
-  const liked = likes?.includes(userKey);
 
   return (
     <View
@@ -28,21 +23,7 @@ const PostFooter = ({ id }: Props) => {
       }}
     >
       <View style={styles.leftFooterIconContainer}>
-        <TouchableOpacity onPress={() => handleLike(id)}>
-          {liked ? (
-            <Ionicons
-              name="md-heart-sharp"
-              size={32}
-              color={theme.colors.text}
-            />
-          ) : (
-            <Ionicons
-              name="md-heart-outline"
-              size={32}
-              color={theme.colors.text}
-            />
-          )}
-        </TouchableOpacity>
+        <Like id={id} authorkey={author?.id || ""} />
         <TouchableOpacity>
           <Ionicons
             name="md-chatbubble-outline"

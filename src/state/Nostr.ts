@@ -20,9 +20,12 @@ export const globalAtom = atom<boolean>(false);
 
 export const postsReactionsAtom = atom<PostLikes>({});
 
+export const resetPostLikesAtom = atom(false);
+
 export const postsLikesAtom = atom<Promise<PostLikes>>(async (get) => {
   const posts = await get(postsAtom);
   const relays = await get(getRelaysAtom);
+  const reset = await get(resetPostLikesAtom);
 
   if (!posts.length) {
     return {};
