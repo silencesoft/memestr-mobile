@@ -130,12 +130,12 @@ export const useGetPosts = (props: Props) => {
   }, [lastDate]);
 
   useEffect(() => {
-    const isGlobalOrHasContacts = (!global && contacts.length) || !!global;
+    const isGlobalOrHasContacts = (!global && contacts?.length) || !!global;
     if (
       !posts?.length &&
       !loading &&
       !empty &&
-      relays.length &&
+      relays?.length &&
       isGlobalOrHasContacts &&
       !lastDate
     ) {

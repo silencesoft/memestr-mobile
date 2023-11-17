@@ -5,6 +5,7 @@ import { Ionicons } from "@expo/vector-icons";
 import { useTheme } from "src/Providers/ThemeProvider";
 import Like from "./Like";
 import { User } from "src/interfaces/user/user";
+import Comments from "./Comments";
 
 type Props = {
   id: string;
@@ -24,6 +25,7 @@ const PostFooter = ({ id, author }: Props) => {
     >
       <View style={styles.leftFooterIconContainer}>
         <Like id={id} authorkey={author?.id || ""} />
+        <Comments id={id} />
         <TouchableOpacity>
           <Ionicons
             name="md-chatbubble-outline"

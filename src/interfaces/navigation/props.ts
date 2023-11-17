@@ -15,3 +15,8 @@ export type createScreenProp= NativeStackNavigationProp<
 RootStackParamList,
 "Create"
 >;
+
+export type commentsScreenProp= NativeStackNavigationProp<
+RootStackParamList,
+"Comments"
+>;
